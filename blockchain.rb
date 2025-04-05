@@ -47,6 +47,11 @@ end
 set :port, ENV.fetch('PORT', 4567)
 set :bind, '0.0.0.0'
 
+get '/' do
+  content_type :json
+  BLOCKCHAIN.map(&:to_h).to_json
+end
+
 # Helper Methods
 def generate_block(prev_block, bpm)
   index = prev_block.index + 1
