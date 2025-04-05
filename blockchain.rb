@@ -26,3 +26,10 @@ class Block
     Digest::SHA256.hexdigest(record)
   end
 end
+
+# Helper Methods
+def generate_block(prev_block, bpm)
+  index = prev_block.index + 1
+  timestamp = Time.now.to_s
+  Block.new(index, timestamp, bpm, prev_block.hash)
+end
