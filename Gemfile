@@ -1,3 +1,6 @@
+source "https://rubygems.org"
+
+ruby File.read(".ruby-version").strip
 # For the web app
 gem "sinatra"
 gem "json"
