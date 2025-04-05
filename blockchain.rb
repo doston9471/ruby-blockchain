@@ -1,5 +1,6 @@
 require "time"
 require "digest"
+require "dotenv/load"
 require "thread"
 
 class Block
