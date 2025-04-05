@@ -52,6 +52,34 @@ get '/' do
   BLOCKCHAIN.map(&:to_h).to_json
 end
 
+post '/' do
+  content_type :json
+  request_body = request.body.read
+
+  begin
+    data = JSON.parse(request_body)
+    bpm = data['BPM'] || data['bpm']
+
+    halt 400, { error: 'BPM is required' }.to_json unless bpm
+
+    MUTEX.synchronize do
+      prev_block = BLOCKCHAIN.last
+      new_block = generate_block(prev_block, bpm.to_i)
+
+      if valid_block?(new_block, prev_block)
+        BLOCKCHAIN << new_block
+        puts "New Block: #{new_block.to_h}"
+        status 201
+        new_block.to_h.to_json
+      else
+        halt 422, { error: 'Invalid block' }.to_json
+      end
+    end
+  rescue JSON::ParserError
+    halt 400, { error: 'Invalid JSON' }.to_json
+  end
+end
+
 # Helper Methods
 def generate_block(prev_block, bpm)
   index = prev_block.index + 1
