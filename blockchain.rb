@@ -33,3 +33,13 @@ def generate_block(prev_block, bpm)
   timestamp = Time.now.to_s
   Block.new(index, timestamp, bpm, prev_block.hash)
 end
+
+def valid_block?(new_block, prev_block)
+  return false if new_block.index != prev_block.index + 1
+
+  return false if new_block.prev_hash != prev_block.hash
+
+  return false if new_block.hash != new_block.calculate_hash
+
+  true
+end
