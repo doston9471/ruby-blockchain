@@ -1,3 +1,5 @@
+require "sinatra"
+require "json"
 require "time"
 require "digest"
 require "dotenv/load"
@@ -40,6 +42,10 @@ Thread.new do
   MUTEX.synchronize { BLOCKCHAIN << genesis_block }
   puts "Genesis Block: #{genesis_block.to_h}"
 end
+
+# Routes
+set :port, ENV.fetch('PORT', 4567)
+set :bind, '0.0.0.0'
 
 # Helper Methods
 def generate_block(prev_block, bpm)
