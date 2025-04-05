@@ -1,3 +1,5 @@
+require "digest"
+
 class Block
   attr_reader :index, :timestamp, :bpm, :hash, :prev_hash
 
@@ -6,6 +8,11 @@ class Block
     @timestamp = timestamp
     @bpm = bpm
     @prev_hash = prev_hash
-    @hash = calculate_hash #  TODO: calculate_hash method
+    @hash = calculate_hash
+  end
+
+  def calculate_hash
+    record = "#{@index}#{@timestamp}#{@bpm}#{@prev_hash}"
+    Digest::SHA256.hexdigest(record)
   end
 end
