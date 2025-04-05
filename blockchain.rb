@@ -1,4 +1,6 @@
+require "time"
 require "digest"
+require "thread"
 
 class Block
   attr_reader :index, :timestamp, :bpm, :hash, :prev_hash
@@ -25,6 +27,17 @@ class Block
     record = "#{@index}#{@timestamp}#{@bpm}#{@prev_hash}"
     Digest::SHA256.hexdigest(record)
   end
+end
+
+# Global Blockchain & Mutex
+BLOCKCHAIN = []
+MUTEX = Mutex.new
+
+# Generate Genesis Block
+Thread.new do
+  genesis_block = Block.new(0, Time.now.to_s, 0, '')
+  MUTEX.synchronize { BLOCKCHAIN << genesis_block }
+  puts "Genesis Block: #{genesis_block.to_h}"
 end
 
 # Helper Methods
