@@ -11,6 +11,16 @@ class Block
     @hash = calculate_hash
   end
 
+  def to_h
+    {
+      index: @index,
+      timestamp: @timestamp,
+      bpm: @bpm,
+      hash: @hash,
+      prev_hash: @prev_hash
+    }
+  end
+
   def calculate_hash
     record = "#{@index}#{@timestamp}#{@bpm}#{@prev_hash}"
     Digest::SHA256.hexdigest(record)
