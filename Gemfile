@@ -2,13 +2,14 @@ source "https://rubygems.org"
 
 ruby File.read(".ruby-version").strip
 # For the web app
-gem "sinatra"
-gem "json"
 gem "dotenv"
+gem "json"
+gem "sinatra"
 
 # For development and testing
 group :development, :test do
-  gem "rspec"
   gem "rack-test"
+  gem "rspec"
+  gem "rubocop-rails-omakase", require: false
   gem "simplecov", require: false
 end

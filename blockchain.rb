@@ -1,15 +1,15 @@
-require "sinatra"
-require "json"
-require "time"
-require "digest"
-require "dotenv/load"
-require "thread"
+require 'sinatra'
+require 'json'
+require 'time'
+require 'digest'
+require 'dotenv/load'
 
 # Allow test host
 configure :test do
-  set :allowed_hosts, ["example.org"]
+  set :allowed_hosts, [ 'example.org' ]
 end
 
+# Block class with necessary fields/attributes
 class Block
   attr_reader :index, :timestamp, :bpm, :hash, :prev_hash
 
@@ -49,23 +49,23 @@ Thread.new do
 end
 
 # Routes
-set :port, ENV.fetch("PORT", 4567)
-set :bind, "0.0.0.0"
+set :port, ENV.fetch('PORT', 4567)
+set :bind, '0.0.0.0'
 
-get "/" do
+get '/' do
   content_type :json
   BLOCKCHAIN.map(&:to_h).to_json
 end
 
-post "/" do
+post '/' do
   content_type :json
   request_body = request.body.read
 
   begin
     data = JSON.parse(request_body)
-    bpm = data["BPM"] || data["bpm"]
+    bpm = data['BPM'] || data['bpm']
 
-    halt 400, { error: "BPM is required" }.to_json unless bpm
+    halt 400, { error: 'BPM is required' }.to_json unless bpm
 
     MUTEX.synchronize do
       prev_block = BLOCKCHAIN.last
@@ -77,11 +77,11 @@ post "/" do
         status 201
         new_block.to_h.to_json
       else
-        halt 422, { error: "Invalid block" }.to_json
+        halt 422, { error: 'Invalid block' }.to_json
       end
     end
   rescue JSON::ParserError
-    halt 400, { error: "Invalid JSON" }.to_json
+    halt 400, { error: 'Invalid JSON' }.to_json
   end
 end
 
