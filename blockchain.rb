@@ -73,7 +73,7 @@ post '/' do
 
       if valid_block?(new_block, prev_block)
         BLOCKCHAIN << new_block
-        puts "New Block: #{new_block.to_h}"
+        # puts "New Block: #{new_block.to_h}"
         status 201
         new_block.to_h.to_json
       else
