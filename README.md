@@ -1,5 +1,7 @@
 # Blockchain in Ruby (Sinatra)
 
+[![CI](https://github.com/doston9471/ruby-blockchain/actions/workflows/ci.yml/badge.svg)](https://github.com/doston9471/ruby-blockchain/actions/workflows/ci.yml)
+
 Custom Blockchain app in Ruby with Sinatra framework
 
 ## System Requirements
